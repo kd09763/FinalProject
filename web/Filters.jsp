@@ -22,10 +22,13 @@
             </div>
             <div class="column middle">
                 <form>
-                    <div class="label filter">
-
+                    <div class="labelrow">
+                        <label for="ageLabel">Age</label>
+                        <label for="stateLabel">State</label>
+                        <label for="gender">Gender</label>
+                    </div>
+                    
                     <!-- Age filter -->
-                    <label for="ageLabel">Age</label>
                     <select name="age" id ="age">
                         <option value="allAges" selected="selected">All Ages</option>
                         <option value="eighteen">18+</option>
@@ -33,7 +36,7 @@
                     </select>
 
                     <!-- State Filter -->
-                    <label for="stateLabel">State</label>
+                   
                     <select name="state" id="state">
                         <option value="all" selected="selected">All States</option>
                         <option value="AL">Alabama</option>
@@ -90,7 +93,7 @@
                     </select>
 
                     <!-- Gender Filter -->
-                    <label for="gender">Gender</label>
+                    
                     <select name="gender" id="gender">
                         <option value="allGender">All Genders</option>
                         <option value="female">female</option>
