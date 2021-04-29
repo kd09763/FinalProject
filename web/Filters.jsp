@@ -22,7 +22,7 @@
             </div>
             <div class="column middle">
                 <form>
-
+                    <div class="label filter">
 
                     <!-- Age filter -->
                     <label for="ageLabel">Age</label>
