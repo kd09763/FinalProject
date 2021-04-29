@@ -13,8 +13,8 @@ and open the template in the editor.
 }
 
 .column {
-  float: left;
-  padding: 10px;
+    float: left;
+    padding: 10px;
 }
 
 .column.side{
@@ -24,10 +24,32 @@ and open the template in the editor.
 
 .column.middle{
     width:50%;
+    text-align: center;
 }
 
 .row:after {
-  content: "";
-  display: table;
-  clear: both;
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.labelrow{
+    font-size: 1em;
+}
+
+.labelrow.element{  
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+.filterrow{
+}
+
+.filterrow.element{
+    padding-left:5%;
+    padding-right:5%;
+}
+
+.submitrow{
+    
 }
