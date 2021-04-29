@@ -37,9 +37,8 @@ and open the template in the editor.
     font-size: 1em;
 }
 
-.labelrow.element{  
-    padding-left: 20%;
-    padding-right: 20%;
+.labelrow.ageLabel{
+    padding:0%;
 }
 
 .filterrow{
