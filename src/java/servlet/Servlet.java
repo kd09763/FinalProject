@@ -65,6 +65,10 @@ public class Servlet extends HttpServlet {
         String age = request.getParameter("age");
         String state = request.getParameter("state");
         String gender = request.getParameter("gender");
+        
+        int ageFilterNum=ageFilter(age);
+        int stateFilterNum=stateFilter(state);
+        int genderFilterNum=genderFilter(gender);
 
         request.setAttribute("age", age);
         request.setAttribute("state", state);
@@ -108,5 +112,17 @@ public class Servlet extends HttpServlet {
         }
         
         return stateFilterNum;
+    }
+    
+    public static int genderFilter(String genderString){
+        int genderFilterNum;
+        if (genderString == "allGenders") {
+            genderFilterNum = 0;
+        } else if (genderString == "female") {
+            genderFilterNum = 1;
+        } else {
+            genderFilterNum = 2;
+        }
+        return genderFilterNum;
     }
 }
