@@ -23,9 +23,9 @@
             <div class="column middle">
                 <form>
                     <div class="labelrow">
-                        <label class="labelrow ageLabel" for="ageLabel">Age</label>
-                        <label class="labelrow stateLabel" for="stateLabel">State</label>
-                        <label class="labelrow genderLabel" for="gender">Gender</label>
+                        <label for="ageLabel">Age</label>
+                        <label stateLabel" for="stateLabel">State</label>
+                        <label genderLabel" for="gender">Gender</label>
                     </div>
 
                     <div class="filterrow">
