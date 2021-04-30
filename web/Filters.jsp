@@ -21,11 +21,11 @@
             <div class="column side">
             </div>
             <div class="column middle">
-                <form>
+                <form action="Servlet" method="post">
                     <div class="labelrow">
-                        <label for="ageLabel">Age</label>
-                        <label stateLabel" for="stateLabel">State</label>
-                        <label genderLabel" for="gender">Gender</label>
+                        <label class="labelrow element" for="ageLabel">Age</label>
+                        <label class="labelrow element" stateLabel" for="stateLabel">State</label>
+                        <label class="labelrow element" genderLabel" for="gender">Gender</label>
                     </div>
 
                     <div class="filterrow">
@@ -38,7 +38,7 @@
 
                         <!-- State Filter -->
                         <select class="filterrow element" name="state" id="state">
-                            <option value="all" selected="selected">All States</option>
+                            <option value="allStates" selected="selected">All States</option>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
                             <option value="AZ">Arizona</option>
