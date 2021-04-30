@@ -65,10 +65,8 @@ public class Servlet extends HttpServlet {
         String age = request.getParameter("age");
         String state = request.getParameter("state");
         String gender = request.getParameter("gender");
+
         
-        int ageFilterNum=ageFilter(age);
-        int stateFilterNum=stateFilter(state);
-        int genderFilterNum=genderFilter(gender);
 
         request.setAttribute("age", age);
         request.setAttribute("state", state);
@@ -87,42 +85,5 @@ public class Servlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public static int ageFilter(String ageString) {
-        int ageFilterNum;
-        if (ageString == "allAges") {
-            ageFilterNum = 0;
-        } else if (ageString == "eighteen") {
-            ageFilterNum = 1;
-        } else {
-            ageFilterNum = 2;
-        }
-        return ageFilterNum;
-    }
 
-    public static int stateFilter(String stateString) {
-        int stateFilterNum=52;
-        String[] states = {"allStates", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN",
-            "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH",
-            "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"};
-        
-        for (int i=0;i<states.length;i++){
-            if(stateString==states[i]){
-                stateFilterNum=i;
-            }
-        }
-        
-        return stateFilterNum;
-    }
-    
-    public static int genderFilter(String genderString){
-        int genderFilterNum;
-        if (genderString == "allGenders") {
-            genderFilterNum = 0;
-        } else if (genderString == "female") {
-            genderFilterNum = 1;
-        } else {
-            genderFilterNum = 2;
-        }
-        return genderFilterNum;
-    }
 }
