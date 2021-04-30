@@ -32,7 +32,7 @@ public class Servlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-           
+
         }
     }
 
@@ -63,9 +63,14 @@ public class Servlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String age = request.getParameter("age");
-        String state= request.getParameter("state");
-        String gender=request.getParameter("gender");
-        System.out.println(age);
+        String state = request.getParameter("state");
+        String gender = request.getParameter("gender");
+
+        request.setAttribute("age", age);
+        request.setAttribute("state", state);
+        request.setAttribute("gender", gender);
+
+        request.getRequestDispatcher("Data.jsp").forward(request, response);
     }
 
     /**
@@ -78,4 +83,30 @@ public class Servlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    public static int ageFilter(String ageString) {
+        int ageFilterNum;
+        if (ageString == "allAges") {
+            ageFilterNum = 0;
+        } else if (ageString == "eighteen") {
+            ageFilterNum = 1;
+        } else {
+            ageFilterNum = 2;
+        }
+        return ageFilterNum;
+    }
+
+    public static int stateFilter(String stateString) {
+        int stateFilterNum=52;
+        String[] states = {"allStates", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FL", "GA", "HI", "ID", "IL", "IN",
+            "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH",
+            "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"};
+        
+        for (int i=0;i<states.length;i++){
+            if(stateString==states[i]){
+                stateFilterNum=i;
+            }
+        }
+        
+        return stateFilterNum;
+    }
 }
