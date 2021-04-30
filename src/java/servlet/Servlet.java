@@ -62,8 +62,10 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String age = request.getParameter("");
-        
+        String age = request.getParameter("age");
+        String state= request.getParameter("state");
+        String gender=request.getParameter("gender");
+        System.out.println(age);
     }
 
     /**
