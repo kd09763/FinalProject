@@ -12,6 +12,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <p>${age}</p>
+        <p>${state}</p>
+        <p>${gender}</p>
     </body>
 </html>
