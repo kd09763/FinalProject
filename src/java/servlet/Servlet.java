@@ -66,8 +66,6 @@ public class Servlet extends HttpServlet {
         String state = request.getParameter("state");
         String gender = request.getParameter("gender");
 
-        
-
         request.setAttribute("age", age);
         request.setAttribute("state", state);
         request.setAttribute("gender", gender);
