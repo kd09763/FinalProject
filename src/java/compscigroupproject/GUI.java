@@ -139,7 +139,10 @@ public class GUI extends javax.swing.JFrame {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         
-        int state = 0, age = 0, gender = 0; 
+        int state, age, gender; 
+        state = stateDropdown.getSelectedIndex();
+        age = ageDropdown.getSelectedIndex();
+        gender = genderDropdown.getSelectedIndex();
         
         DisplayData data = new DisplayData();
         //Code filters
