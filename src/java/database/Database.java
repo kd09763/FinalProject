@@ -64,12 +64,54 @@ public class Database {
         }
     }
 
+    
+    /**
+     * Connects to the database and retrieves all information of a single state
+     * depending on the parameter given. Parameter is the name of the state,
+     * with only the first letter capitalized.
+     * Returns the numbers as an integer
+     * list, organized by state alphabetical order.
+     * @return 
+     */
+    public int[] getStateInfo(String state) {
+        try
+        {
+            Connection con = DriverManager.getConnection(url,user,password);
+            Statement stmt = con.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT * FROM COVIDSTATS WHERE"
+                    + " STATE='" + state + "'");
+
+            int count = 2;
+            int info[] = new int[15];
+
+            while (rs.next())
+            {
+                for (int i = 2; i < info.length + 2; i++) {
+                    info[i-2] = Integer.parseInt(rs.getString(i));
+                    System.out.println("");
+                }
+            }
+            stmt.close();
+
+            con.close();
+            return info;
+        }
+        catch (Exception e) 
+        {
+            System.out.println(e);
+            return null;
+        }
+    }
+
+    
     /**
      * Connects to the database and retrieves the population number
      * of each state. Returns the population of the states as an integer
      * list, organized by state alphabetical order.
      * @return 
      */
+    
     public int[] getPopulation() {
         try
         {
