@@ -1,14 +1,19 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * CMPSC 221
+ * DisplayData.java
+ * Purpose: Displays COVID-19 Statistics based on filters user has selected
+ *
+
+ * Author: Gabe Le
+ * @Version 1.0 5/4/21
  */
 package GUI;
 
-/**
- *
- * @author Gabe
- */
+import database.Database;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
+
 public class DisplayData extends javax.swing.JFrame {
 
     /**
@@ -16,6 +21,176 @@ public class DisplayData extends javax.swing.JFrame {
      */
     public DisplayData() {
         initComponents();
+        
+        
+        
+    }
+    
+    /*
+     * Adds data into the table given filters that user has selected
+     * 
+     * @param state, filter, percent
+     */
+    public void addData(int state, int filter, boolean percent) {
+        Database db = new Database();
+        String states[] = db.getStates();
+        double test = 31.213;
+        final int rows = 51;
+        
+        //Allows data to be added into the table
+        DefaultTableModel dt = 
+                        (DefaultTableModel) displayTable.getModel();
+        dt.setRowCount(0);
+        
+        if (state == 0) { //Checks to see if no filter for state is selected
+            for (int i = 1; i < rows; i++) {
+                //Obtains data for state based on parameter given
+                int values[] = db.getStateInfo(states[i-1]); 
+                
+                //Creates a vector to input into the table
+                Vector info = new Vector();
+                
+                //Adds state name to first column/vector
+                info.add(states[i-1]);
+                
+                /*Filters for which statistic is needed and calculates
+                 * percentage and rounds up if need be
+                 */
+                if (percent) {
+                    info.add(Math.round(((double)deathFilter(filter, values) / 
+                            (double)values[0]) * 10000.0) / 100.00 + "%");
+                    info.add(Math.round(((double)caseFilter(filter, values) / 
+                            (double)values[0]) * 10000.0) / 100.00 + "%");
+                    info.add(Math.round(((double)vacFilter(filter, values) / 
+                            (double)values[0]) * 10000.0) / 100.00 + "%");
+                }
+                else {
+                    info.add(deathFilter(filter, values));
+                    info.add(caseFilter(filter, values));
+                    info.add(vacFilter(filter, values));
+                }
+                dt.addRow(info);
+            }
+            //Displays data based on filter
+            this.setVisible(true);
+        }
+        else {
+            int values[] = db.getStateInfo(states[state-1]);
+                Vector info = new Vector();
+                
+                info.add(states[state-1]);
+                if (percent) {
+                    info.add(Math.round(((double)deathFilter(filter, values) / 
+                            (double)values[0]) * 10000.0) / 100.00 + "%");
+                    info.add(Math.round(((double)caseFilter(filter, values) / 
+                            (double)values[0]) * 10000.0) / 100.00 + "%");
+                    info.add(Math.round(((double)vacFilter(filter, values) / 
+                            (double)values[0]) * 10000.0) / 100.00 + "%");
+                }
+                else {
+                    info.add(deathFilter(filter, values));
+                    info.add(caseFilter(filter, values));
+                    info.add(vacFilter(filter, values));
+                }
+                
+                dt.addRow(info);
+                
+            this.setVisible(true);
+        }
+            
+    }
+    /*
+     * Returns death statistic based on filter
+     * 
+     * @param filter, values
+     * @return count
+     */
+    public int deathFilter(int filter, int[] values) {
+        int count = values[1];
+        
+        //Assigns count to be appropriate value based on filter
+        switch (filter) {
+            case 1:
+                count = (count - values[2]);
+                break;
+            case 2:
+                count = values[2];
+                break;
+            case 3:
+                count = values[3];
+                break;
+            case 4:
+                count = values[4];
+                break;
+            case 5:
+                count = values[5];
+                break;
+            default:
+                break;
+        }
+        return count;
+    }
+    
+    /*
+     * Returns case statistic based on filter
+     * 
+     * @param filter, values
+     * @return count
+     */
+    public int caseFilter(int filter, int[] values) {
+        int count = values[6];
+        
+        switch (filter) {
+            case 1:
+                count = (count - values[7]);
+                break;
+            case 2:
+                count = values[7];
+                break;
+            case 3:
+                count = values[8];
+                break;
+            case 4:
+                count = values[9];
+                break;
+            case 5:
+                count = values[10];
+                break;
+            default:
+                break;
+        }
+        return count;
+    }
+    
+    /*
+     * Returns vaccination statistic based on filter
+     * 
+     * @param filter, values
+     * @return count
+     */
+    public int vacFilter(int filter, int[] values) {
+        int count = (values[13] + values[14]);
+        
+        switch (filter) {
+            case 1:
+                count = (count - values[7]);
+                break;
+            case 2:
+                count = values[11];
+                break;
+            case 3:
+                count = values[12];
+                break;
+            case 4:
+                count = values[13];
+                break;
+            case 5:
+                count = values[14];
+                break;
+            default:
+                break;
+        }
+        return count;
     }
 
     /**
@@ -28,68 +203,19 @@ public class DisplayData extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        displayTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        displayTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "State", "Dead", "Cases", "Vaccinated"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(displayTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,40 +234,10 @@ public class DisplayData extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DisplayData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DisplayData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DisplayData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DisplayData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new DisplayData().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable displayTable;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
 }
