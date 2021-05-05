@@ -12,9 +12,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import database.Database;
+import static java.awt.PageAttributes.MediaType.A;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  *
@@ -74,11 +78,18 @@ public class Servlet extends HttpServlet {
         int stateFilterNum = stateFilter(state);
         int genderFilterNum = genderFilter(gender);
 
-        Database db = new Database();
+        //  Database db = new Database();
+        System.out.println("failed");
+        //ArrayList<ArrayList<Integer>> ageList = ageDBHandling(ageFilterNum, db);
+        System.out.println("failed");
+       // ArrayList<ArrayList<Integer>> genderList = genderDBHandling(genderFilterNum, db);
 
         request.setAttribute("age", age);
         request.setAttribute("state", state);
         request.setAttribute("gender", gender);
+        
+        
+        //request.setAttribute("test", ageList.get(0).get(0));
 
         request.getRequestDispatcher("Data.jsp").forward(request, response);
     }
@@ -102,29 +113,29 @@ public class Servlet extends HttpServlet {
         ArrayList<Integer> vaccine18;
         ArrayList<Integer> vaccine65;
         if (ageFilterNum == 1) {
-            case18 = Arrays.stream(db.getCases18()).boxed().collect(Collectors.toList());
-            death18 = Arrays.stream(db.getDeaths18()).boxed().collect(Collectors.toList());
-            vaccine18 = Arrays.stream(db.getVaccinated18()).boxed().collect(Collectors.toList());
+            case18 = IntStream.of(db.getCases18()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            death18 = IntStream.of(db.getDeaths18()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            vaccine18 = IntStream.of(db.getVaccinated18()).boxed().collect(Collectors.toCollection(ArrayList::new));
 
             aList.add(case18);
             aList.add(death18);
             aList.add(vaccine18);
         } else if (ageFilterNum == 2) {
-            case65 = Arrays.stream(db.getCases18()).boxed().collect(Collectors.toList());
-            death65 = Arrays.stream(db.getDeaths18()).boxed().collect(Collectors.toList());
-            vaccine65 = Arrays.stream(db.getVaccinated18()).boxed().collect(Collectors.toList());
+            case65 = IntStream.of(db.getCases65()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            death65 = IntStream.of(db.getDeaths65()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            vaccine65 = IntStream.of(db.getVaccinated65()).boxed().collect(Collectors.toCollection(ArrayList::new));
 
             aList.add(case65);
             aList.add(death65);
             aList.add(vaccine65);
         } else {
-            case18 = Arrays.stream(db.getCases18()).boxed().collect(Collectors.toList());
-            death18 = Arrays.stream(db.getDeaths18()).boxed().collect(Collectors.toList());
-            vaccine18 = Arrays.stream(db.getVaccinated18()).boxed().collect(Collectors.toList());
+            case18 = IntStream.of(db.getCases18()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            death18 = IntStream.of(db.getDeaths18()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            vaccine18 = IntStream.of(db.getVaccinated18()).boxed().collect(Collectors.toCollection(ArrayList::new));
 
-            case65 = Arrays.stream(db.getCases18()).boxed().collect(Collectors.toList());
-            death65 = Arrays.stream(db.getDeaths18()).boxed().collect(Collectors.toList());
-            vaccine65 = Arrays.stream(db.getVaccinated18()).boxed().collect(Collectors.toList());
+            case65 = IntStream.of(db.getCases65()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            death65 = IntStream.of(db.getDeaths65()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            vaccine65 = IntStream.of(db.getVaccinated65()).boxed().collect(Collectors.toCollection(ArrayList::new));
 
             aList.add(case18);
             aList.add(death18);
@@ -140,50 +151,51 @@ public class Servlet extends HttpServlet {
     public static ArrayList<ArrayList<Integer>> stateDBHandling(int stateFilterNum, Database db) {
         ArrayList<ArrayList<Integer>> aList = new ArrayList<ArrayList<Integer>>();
         if (stateFilterNum != 1) {
+
         }
         return aList;
     }
 
-    public static ArrayList<ArrayList<Integer>> ageDBHandling(int ageFilterNum, Database db) {
+    public static ArrayList<ArrayList<Integer>> genderDBHandling(int ageFilterNum, Database db) {
         ArrayList<ArrayList<Integer>> aList = new ArrayList<ArrayList<Integer>>();
-        ArrayList<Integer> case18;
-        ArrayList<Integer> case65;
-        ArrayList<Integer> death18;
-        ArrayList<Integer> death65;
-        ArrayList<Integer> vaccine18;
-        ArrayList<Integer> vaccine65;
+        ArrayList<Integer> casefemale;
+        ArrayList<Integer> casemale;
+        ArrayList<Integer> deathfemale;
+        ArrayList<Integer> deathmale;
+        ArrayList<Integer> vaccinefemale;
+        ArrayList<Integer> vaccinemale;
         if (ageFilterNum == 1) {
-            case18 = Arrays.stream(db.getCases18()).boxed().collect(Collectors.toList());
-            death18 = Arrays.stream(db.getDeaths18()).boxed().collect(Collectors.toList());
-            vaccine18 = Arrays.stream(db.getVaccinated18()).boxed().collect(Collectors.toList());
+            casefemale = IntStream.of(db.getCasesFemale()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            deathfemale = IntStream.of(db.getDeathsFemale()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            vaccinefemale = IntStream.of(db.getVaccinatedFemale()).boxed().collect(Collectors.toCollection(ArrayList::new));
 
-            aList.add(case18);
-            aList.add(death18);
-            aList.add(vaccine18);
+            aList.add(casefemale);
+            aList.add(deathfemale);
+            aList.add(vaccinefemale);
         } else if (ageFilterNum == 2) {
-            case65 = Arrays.stream(db.getCases18()).boxed().collect(Collectors.toList());
-            death65 = Arrays.stream(db.getDeaths18()).boxed().collect(Collectors.toList());
-            vaccine65 = Arrays.stream(db.getVaccinated18()).boxed().collect(Collectors.toList());
+            casemale = IntStream.of(db.getCasesMale()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            deathmale = IntStream.of(db.getDeathsMale()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            vaccinemale = IntStream.of(db.getVaccinatedMale()).boxed().collect(Collectors.toCollection(ArrayList::new));
 
-            aList.add(case65);
-            aList.add(death65);
-            aList.add(vaccine65);
+            aList.add(casemale);
+            aList.add(deathmale);
+            aList.add(vaccinemale);
         } else {
-            case18 = Arrays.stream(db.getCases18()).boxed().collect(Collectors.toList());
-            death18 = Arrays.stream(db.getDeaths18()).boxed().collect(Collectors.toList());
-            vaccine18 = Arrays.stream(db.getVaccinated18()).boxed().collect(Collectors.toList());
+            casefemale = IntStream.of(db.getCasesFemale()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            deathfemale = IntStream.of(db.getDeathsFemale()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            vaccinefemale = IntStream.of(db.getVaccinatedFemale()).boxed().collect(Collectors.toCollection(ArrayList::new));
 
-            case65 = Arrays.stream(db.getCases18()).boxed().collect(Collectors.toList());
-            death65 = Arrays.stream(db.getDeaths18()).boxed().collect(Collectors.toList());
-            vaccine65 = Arrays.stream(db.getVaccinated18()).boxed().collect(Collectors.toList());
+            casemale = IntStream.of(db.getCasesMale()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            deathmale = IntStream.of(db.getDeathsMale()).boxed().collect(Collectors.toCollection(ArrayList::new));
+            vaccinemale = IntStream.of(db.getVaccinatedMale()).boxed().collect(Collectors.toCollection(ArrayList::new));
 
-            aList.add(case18);
-            aList.add(death18);
-            aList.add(vaccine18);
+            aList.add(casefemale);
+            aList.add(deathfemale);
+            aList.add(vaccinefemale);
 
-            aList.add(case65);
-            aList.add(death65);
-            aList.add(vaccine65);
+            aList.add(casemale);
+            aList.add(deathmale);
+            aList.add(vaccinemale);
         }
         return aList;
     }
