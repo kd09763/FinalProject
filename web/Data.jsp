@@ -9,11 +9,12 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Data</title>
     </head>
     <body>
         <p>${age}</p>
         <p>${state}</p>
         <p>${gender}</p>
+        <p>${test}</p>
     </body>
 </html>
