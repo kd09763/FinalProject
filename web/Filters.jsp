@@ -1,7 +1,8 @@
-    Document   : Filters
-    Created on : Apr 26, 2021, 7:17:32 PM
-    Author     : kld09
+Document   : Filters
+Created on : Apr 26, 2021, 7:17:32 PM
+Author     : kld09
 --%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -22,19 +23,11 @@
             <div class="column middle">
                 <form action="Servlet" method="post">
                     <div class="labelrow">
-                        <label class="labelrow element" for="ageLabel">Age</label>
-                        <label class="labelrow element" stateLabel" for="stateLabel">State</label>
-                        <label class="labelrow element" genderLabel" for="gender">Gender</label>
+                        <label class="labelrow element" id="stateLabel" for="stateLabel">State</label>
+                        <label class="labelrow element" id="filterLabel" for="filterLabel">Filters</label>
                     </div>
 
                     <div class="filterrow">
-                        <!-- Age filter -->
-                        <select class="filterrow element" name="age" id ="age">
-                            <option value="allAges" selected="selected">All Ages</option>
-                            <option value="eighteen">18+</option>
-                            <option value="sixty">60+</option>
-                        </select>
-
                         <!-- State Filter -->
                         <select class="filterrow element" name="state" id="state">
                             <option value="allStates" selected="selected">All States</option>
@@ -91,11 +84,14 @@
                             <option value="WY">Wyoming</option>
                         </select>
 
-                        <!-- Gender Filter -->
-                        <select class="filterrow element" name="gender" id="gender">
-                            <option value="allGender">All Genders</option>
-                            <option value="female">female</option>
+                        <!-- Filter Filter -->
+                        <select class="filterrow element" name="filters" id="filters">
+                            <option value="nofilter">No Filter</option>
+                            <option value="under18">Under 18</option>
+                            <option value="18+">18+</option>
+                            <option value="65+">65+</option>
                             <option value="male">male</option>
+                            <option value="female">Female</option>
                         </select>
 
                     </div>
