@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import servlet.DataFilter;
 
 /**
  *
@@ -56,7 +57,7 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        Database db = new Database();
     }
 
     /**
@@ -70,26 +71,30 @@ public class Servlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String age = request.getParameter("age");
+
         String state = request.getParameter("state");
-        String gender = request.getParameter("gender");
+        String filter = request.getParameter("filters");
 
-        int ageFilterNum = ageFilter(age);
-        int stateFilterNum = stateFilter(state);
-        int genderFilterNum = genderFilter(gender);
+        int stateNum = stateFilter(state);
+        int filterNum = filterFilter(filter);
 
-        //  Database db = new Database();
-        System.out.println("failed");
-        //ArrayList<ArrayList<Integer>> ageList = ageDBHandling(ageFilterNum, db);
-        System.out.println("failed");
-       // ArrayList<ArrayList<Integer>> genderList = genderDBHandling(genderFilterNum, db);
-
-        request.setAttribute("age", age);
+        request.setAttribute("stateNum", stateNum);
         request.setAttribute("state", state);
-        request.setAttribute("gender", gender);
+        request.setAttribute("filter", filter);
+
+        DataFilter df = new DataFilter(stateNum, filterNum);
+
+        String[] stateArray = df.getStateArray(stateNum, filterNum);
+        int[] caseArray = df.getCaseArray(stateNum, filterNum);
+        int[] deathArray = df.getDeathArray(stateNum, filterNum);
+        int[] vaccineArray = df.getVaccineArray(stateNum, filterNum);
+
         
         
-        //request.setAttribute("test", ageList.get(0).get(0));
+        request.setAttribute("stateArray", stateArray);
+        request.setAttribute("caseArray", caseArray);
+        request.setAttribute("deathArray", deathArray);
+        request.setAttribute("vaccineArray", vaccineArray);
 
         request.getRequestDispatcher("Data.jsp").forward(request, response);
     }
@@ -104,114 +109,6 @@ public class Servlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    public static ArrayList<ArrayList<Integer>> ageDBHandling(int ageFilterNum, Database db) {
-        ArrayList<ArrayList<Integer>> aList = new ArrayList<ArrayList<Integer>>();
-        ArrayList<Integer> case18;
-        ArrayList<Integer> case65;
-        ArrayList<Integer> death18;
-        ArrayList<Integer> death65;
-        ArrayList<Integer> vaccine18;
-        ArrayList<Integer> vaccine65;
-        if (ageFilterNum == 1) {
-            case18 = IntStream.of(db.getCases18()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            death18 = IntStream.of(db.getDeaths18()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            vaccine18 = IntStream.of(db.getVaccinated18()).boxed().collect(Collectors.toCollection(ArrayList::new));
-
-            aList.add(case18);
-            aList.add(death18);
-            aList.add(vaccine18);
-        } else if (ageFilterNum == 2) {
-            case65 = IntStream.of(db.getCases65()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            death65 = IntStream.of(db.getDeaths65()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            vaccine65 = IntStream.of(db.getVaccinated65()).boxed().collect(Collectors.toCollection(ArrayList::new));
-
-            aList.add(case65);
-            aList.add(death65);
-            aList.add(vaccine65);
-        } else {
-            case18 = IntStream.of(db.getCases18()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            death18 = IntStream.of(db.getDeaths18()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            vaccine18 = IntStream.of(db.getVaccinated18()).boxed().collect(Collectors.toCollection(ArrayList::new));
-
-            case65 = IntStream.of(db.getCases65()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            death65 = IntStream.of(db.getDeaths65()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            vaccine65 = IntStream.of(db.getVaccinated65()).boxed().collect(Collectors.toCollection(ArrayList::new));
-
-            aList.add(case18);
-            aList.add(death18);
-            aList.add(vaccine18);
-
-            aList.add(case65);
-            aList.add(death65);
-            aList.add(vaccine65);
-        }
-        return aList;
-    }
-
-    public static ArrayList<ArrayList<Integer>> stateDBHandling(int stateFilterNum, Database db) {
-        ArrayList<ArrayList<Integer>> aList = new ArrayList<ArrayList<Integer>>();
-        if (stateFilterNum != 1) {
-
-        }
-        return aList;
-    }
-
-    public static ArrayList<ArrayList<Integer>> genderDBHandling(int ageFilterNum, Database db) {
-        ArrayList<ArrayList<Integer>> aList = new ArrayList<ArrayList<Integer>>();
-        ArrayList<Integer> casefemale;
-        ArrayList<Integer> casemale;
-        ArrayList<Integer> deathfemale;
-        ArrayList<Integer> deathmale;
-        ArrayList<Integer> vaccinefemale;
-        ArrayList<Integer> vaccinemale;
-        if (ageFilterNum == 1) {
-            casefemale = IntStream.of(db.getCasesFemale()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            deathfemale = IntStream.of(db.getDeathsFemale()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            vaccinefemale = IntStream.of(db.getVaccinatedFemale()).boxed().collect(Collectors.toCollection(ArrayList::new));
-
-            aList.add(casefemale);
-            aList.add(deathfemale);
-            aList.add(vaccinefemale);
-        } else if (ageFilterNum == 2) {
-            casemale = IntStream.of(db.getCasesMale()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            deathmale = IntStream.of(db.getDeathsMale()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            vaccinemale = IntStream.of(db.getVaccinatedMale()).boxed().collect(Collectors.toCollection(ArrayList::new));
-
-            aList.add(casemale);
-            aList.add(deathmale);
-            aList.add(vaccinemale);
-        } else {
-            casefemale = IntStream.of(db.getCasesFemale()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            deathfemale = IntStream.of(db.getDeathsFemale()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            vaccinefemale = IntStream.of(db.getVaccinatedFemale()).boxed().collect(Collectors.toCollection(ArrayList::new));
-
-            casemale = IntStream.of(db.getCasesMale()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            deathmale = IntStream.of(db.getDeathsMale()).boxed().collect(Collectors.toCollection(ArrayList::new));
-            vaccinemale = IntStream.of(db.getVaccinatedMale()).boxed().collect(Collectors.toCollection(ArrayList::new));
-
-            aList.add(casefemale);
-            aList.add(deathfemale);
-            aList.add(vaccinefemale);
-
-            aList.add(casemale);
-            aList.add(deathmale);
-            aList.add(vaccinemale);
-        }
-        return aList;
-    }
-
-    public static int ageFilter(String ageString) {
-        int ageFilterNum;
-        if (ageString == "allAges") {
-            ageFilterNum = 0;
-        } else if (ageString == "eighteen") {
-            ageFilterNum = 1;
-        } else {
-            ageFilterNum = 2;
-        }
-        return ageFilterNum;
-    }
-
     //factory static method
     public static int stateFilter(String stateString) {
         int stateFilterNum = 52;
@@ -220,7 +117,7 @@ public class Servlet extends HttpServlet {
             "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"};
 
         for (int i = 0; i < states.length; i++) {
-            if (stateString == states[i]) {
+            if (stateString.equals(states[i]) ) {
                 stateFilterNum = i;
             }
         }
@@ -229,14 +126,20 @@ public class Servlet extends HttpServlet {
     }
 
     //factory static method
-    public static int genderFilter(String genderString) {
+    public static int filterFilter(String filterString) {
         int genderFilterNum;
-        if (genderString == "allGenders") {
+        if (filterString == "nofilter") {
             genderFilterNum = 0;
-        } else if (genderString == "female") {
+        } else if (filterString == "under18") {
             genderFilterNum = 1;
-        } else {
+        } else if (filterString == "18+") {
             genderFilterNum = 2;
+        } else if (filterString == "65+") {
+            genderFilterNum = 3;
+        } else if (filterString == "male") {
+            genderFilterNum = 4;
+        } else {
+            genderFilterNum = 5;
         }
         return genderFilterNum;
     }
